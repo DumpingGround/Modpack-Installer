@@ -1,0 +1,26 @@
+{
+  "name": "keycraft-modpack",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node .",
+    "build": "pkg ./"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HexDevv/KeyCraft-Modpack.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/HexDevv/KeyCraft-Modpack/issues"
+  },
+  "homepage": "https://github.com/HexDevv/KeyCraft-Modpack#readme",
+  "dependencies": {
+    "chalk": "^4.1.0",
+    "prompt-sync": "^4.2.0",
+    "request": "^2.88.2",
+    "request-progress": "^3.0.0"
+  }
+}
