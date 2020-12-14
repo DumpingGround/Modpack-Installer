@@ -30,12 +30,13 @@ if (!fs.existsSync('./mods.zip')) {
 }
 
 console.clear();
-console.log('Would you like to install Forge 1.7.10?');
+console.log('Would you like to install Forge 1.12.2?');
 yn = prompt('[y/N] ');
 
 if (yn.toLowerCase().includes('y')) {
+    if (!fs.existsSync('./forge.jar')) {console.log('You appear to not have forge.jar in the same folder.', 0)};
     console.log('Starting up Forge Installer.\nIn order to install: Mod System Installer > Install Client > Link to your .minecraft folder (should be already set) > Ok\nOnce done, simply close the pop-up and the installer will continue on.');
-    execSync('java -jar forge.jar');
+    execSync('java -jar bin/forge.jar');
     console.log('Forge Installation complete.');
 }
 
@@ -70,8 +71,8 @@ request.get('https://pastebin.com/raw/qQzFqYpd', (err, res, body) => {
         console.clear();
         console.log('Extracting files...');
         await extract('./mods.zip', {dir: `${process.env.APPDATA}/.minecraft/mods/`});
-        console.clear();
-        console.log(`${chalk.green('Successfully installed KeyCraft! Ensure you have the Forge profile selected, then you should be ready to go!.\nDM HexDev#0001 for the server IP.')}`);
+        await console.clear();
+        await console.log(`${chalk.green('Successfully installed KeyCraft! Ensure you have the Forge profile selected, then you should be ready to go!.\nDM HexDev#0001 for the server IP.')}`);
         prompt('[Press anything to continue] ');
         process.exit(0);
     });
