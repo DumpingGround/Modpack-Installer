@@ -3,6 +3,8 @@ const chalk = require('chalk');
 const {execSync} = require('child_process');
 const request = require('request');
 const progress = require('request-progress');
+const extract = require('extract-zip');
+const { exit } = require('process');
 const prompt = require('prompt-sync')();
 
 //const DOWNLOADURL = 'https://github.com/HexDevv/KeyCraft-Modpack/archive/main.zip';
@@ -10,6 +12,7 @@ const prompt = require('prompt-sync')();
 function error(msg, exitcode) {
     console.log(`There was an error whilst attempting to run this.`);
     console.log(`Error Message: ${msg}`);
+    prompt('[Press anything to continue] ');
     process.exit(exitcode);
 }
 
@@ -51,16 +54,25 @@ request.get('https://pastebin.com/raw/qQzFqYpd', (err, res, body) => {
     const modFILE = fs.createWriteStream('./mods.zip');
     progress(request.get(downloadURL))
     .on('progress', function (state) {
-        console.log(state);
         let downloadPercentage = '';
         for (let i=0;i<20;i++) {
-            if (i<state.percent) downloadPercentage = downloadPercentage + '#';
+            if (i<state.percent*20) downloadPercentage = downloadPercentage + '#';
             else downloadPercentage = downloadPercentage + '-';
         }
-        console.log(`[${downloadPercentage}] ${(state.speed/1000000).toFixed(2)}MB/s`);
+        console.clear();
+        console.log(`Downloading mods... [${downloadPercentage}] ${(state.speed/1000000).toFixed(2)}MB/s\nThis may take a minute. Go listen to keyfm.net whilst you wait`);
     })
     .on('response', (res) => {
         res.pipe(modFILE);
     })
-    .on('end', () => fs.unlink('./mods.zip', () => {}));
+    .on('error', () => {fs.unlink('./mods.zip'); error('Failed to download mods.zip',0);})
+    .on('end', async () => {
+        console.clear();
+        console.log('Extracting files...');
+        await extract('./mods.zip', {dir: `${process.env.APPDATA}/.minecraft/mods/`});
+        console.clear();
+        console.log(`${chalk.green('Successfully installed KeyCraft! Ensure you have the Forge profile selected, then you should be ready to go!.\nDM HexDev#0001 for the server IP.')}`);
+        prompt('[Press anything to continue] ');
+        process.exit(0);
+    });
 });
