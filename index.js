@@ -36,7 +36,7 @@ yn = prompt('[y/N] ');
 if (yn.toLowerCase().includes('y')) {
     if (!fs.existsSync('./forge.jar')) {console.log('You appear to not have forge.jar in the same folder.', 0)};
     console.log('Starting up Forge Installer.\nIn order to install: Mod System Installer > Install Client > Link to your .minecraft folder (should be already set) > Ok\nOnce done, simply close the pop-up and the installer will continue on.');
-    execSync('java -jar bin/forge.jar');
+    execSync('java -jar forge.jar');
     console.log('Forge Installation complete.');
 }
 
